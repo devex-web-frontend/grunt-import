@@ -1,0 +1,38 @@
+{
+  "name": "grunt-import",
+  "description": "Grunt plugin to import files.",
+  "version": "0.0.1",
+  "homepage": "https://github.com/devex-web-frontend/grunt-import",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devex-web-frontend/grunt-import"
+  },
+  "bugs": {
+    "url": "https://github.com/devex-web-frontend/grunt-import/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/devex-web-frontend/grunt-import/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "Gruntfile.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-nodeunit": "~0.2.0",
+    "grunt": "~0.4.1"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.1"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
