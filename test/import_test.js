@@ -27,21 +27,47 @@ exports.import = {
 		// setup here if necessary
 		done();
 	},
+
 	default_options: function(test) {
 		test.expect(1);
 
-		var actual = grunt.file.read('tmp/default_options');
-		var expected = grunt.file.read('test/expected/default_options');
-		test.equal(actual, expected, 'should describe what the default behavior is.');
+		var actual = grunt.file.read('tmp/main.js');
+		var expected = grunt.file.read('test/expected/main.js');
+
+		test.equal(actual, expected, 'Imports files according to default settings: token, comments');
 
 		test.done();
 	},
-	custom_options: function(test) {
+
+	custom_token: function(test) {
 		test.expect(1);
 
-		var actual = grunt.file.read('tmp/custom_options');
-		var expected = grunt.file.read('test/expected/custom_options');
-		test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+		var actual = grunt.file.read('tmp/main-custom_token.js');
+		var expected = grunt.file.read('test/expected/main-custom_token.js');
+
+		test.equal(actual, expected, 'Imports file with custom token.');
+
+		test.done();
+	},
+
+	no_comments: function(test) {
+		test.expect(1);
+
+		var actual = grunt.file.read('tmp/main-no_comments.js');
+		var expected = grunt.file.read('test/expected/main-no_comments.js');
+
+		test.equal(actual, expected, 'Imports file without comments.');
+
+		test.done();
+	},
+
+	custom_comments: function(test) {
+		test.expect(1);
+
+		var actual = grunt.file.read('tmp/main-custom_comments.js');
+		var expected = grunt.file.read('test/expected/main-custom_comments.js');
+
+		test.equal(actual, expected, 'Imports file with custom comments.');
 
 		test.done();
 	}

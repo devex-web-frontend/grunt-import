@@ -31,19 +31,35 @@ module.exports = function(grunt) {
 		// Configuration to be run (and then tested).
 		import: {
 			default_options: {
-				options: {
-				},
 				files: {
-					'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+					'tmp/main.js': 'test/cases/main.js'
 				}
 			},
-			custom_options: {
+			custom_token: {
 				options: {
-					separator: ': ',
-					punctuation: ' !!!'
+					token: '$import(%F%)'
 				},
 				files: {
-					'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+					'tmp/main-custom_token.js': 'test/cases/main-import.js'
+				}
+			},
+			no_comments: {
+				options: {
+					comments: false
+
+				},
+				files: {
+					'tmp/main-no_comments.js': 'test/cases/main.js'
+				}
+			},
+			custom_comments: {
+				options: {
+					startComment: 'start %F%',
+					endComment: 'end %F%'
+
+				},
+				files: {
+					'tmp/main-custom_comments.js': 'test/cases/main.js'
 				}
 			}
 		},
