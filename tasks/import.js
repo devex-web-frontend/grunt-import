@@ -10,11 +10,9 @@
 
 module.exports = function(grunt) {
 
-	// Please see the Grunt documentation for more information regarding task
-	// creation: http://gruntjs.com/creating-tasks
+	var Path = require('path');
 
 	grunt.registerMultiTask('import', 'Grunt plugin to import files.', function() {
-		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
 			token: '_include(%F%)',
 			comments: 'true',
@@ -24,31 +22,50 @@ module.exports = function(grunt) {
 
 		// Iterate over all specified file groups.
 		this.files.forEach(function(file) {
+			var srcFile = file.src[0];
 
+			if (!srcFile) {
+				grunt.fail.warn('Source file "' + file.orig.src + '" not found.');
+			}
 
+			var absPathToSrcFile = Path.resolve(file.src[0]);
+			var srcDir = Path.dirname(absPathToSrcFile);
+			var srcExt = Path.extname(srcFile);
 
-			/*// Concat specified files.
-			var src = f.src.filter(function(filepath) {
-				// Warn on and remove invalid source files (if nonull was set).
-				if (!grunt.file.exists(filepath)) {
-					grunt.log.warn('Source file "' + filepath + '" not found.');
-					return false;
-				} else {
-					return true;
+			var src = grunt.file.read(srcFile);
+
+			/* remove trailing semicolon */
+			var token = options.token.replace(/;?$/g, '') + ';?';
+
+			/* escape special symbols */
+			token = token.replace(/(\$|\(|\))/g, '\\$1');
+
+			/* replace %F% with RegExp for file name */
+			token = token.replace('%F%', '[\'"]?([\\w\\/\\.-]+)[\'"]?');
+
+			/* make it RegExp */
+			token = new RegExp(token, 'g');
+
+			src = src.replace(token, function(match, filename) {
+				var str = '',
+						startComment = options.startComment.replace('%F%', filename),
+						endComment = options.endComment.replace('%F%', filename);
+
+				if (options.comments) {
+					str += '/* ' + startComment + ' */\r\n';
 				}
-			}).map(function(filepath) {
-						// Read file source.
-						return grunt.file.read(filepath);
-					}).join(grunt.util.normalizelf(options.separator));
 
-			// Handle options.
-			src += options.punctuation;
+				str += grunt.file.read(Path.join(srcDir, filename)) + '\r\n';
 
-			// Write the destination file.
-			grunt.file.write(f.dest, src);
+				if (options.comments) {
+					str += '/* ' + endComment + ' */\r\n';
+				}
 
-			// Print a success message.
-			grunt.log.writeln('File "' + f.dest + '" created.');*/
+				return str;
+			});
+
+			grunt.file.write(file.dest, src);
+			grunt.log.writeln('File "' + file.dest + '" created.');
 		});
 	});
 
