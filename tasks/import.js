@@ -15,7 +15,7 @@ module.exports = function(grunt) {
 	grunt.registerMultiTask('import', 'Grunt plugin to import files.', function() {
 		var options = this.options({
 			token: '_include(%F%)',
-			comments: 'true',
+			comments: true,
 			startComment: 'START %F% ==================================================',
 			endComment: 'END %F% =================================================='
 		});
@@ -30,7 +30,6 @@ module.exports = function(grunt) {
 
 			var absPathToSrcFile = Path.resolve(file.src[0]);
 			var srcDir = Path.dirname(absPathToSrcFile);
-			var srcExt = Path.extname(srcFile);
 
 			var src = grunt.file.read(srcFile);
 

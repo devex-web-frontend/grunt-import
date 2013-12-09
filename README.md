@@ -37,46 +37,54 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.token
 Type: `String`
-Default value: `',  '`
+Default value: `'_include(%F%)'`
 
-A string value that is used to do something with whatever.
+Token that is used to import files. Use `%F%` as a placeholder for filename.
 
-#### options.punctuation
+#### options.comments
+Type: `Boolean`
+Default value: `true`
+
+Defines if the task should add comments at the start/end of imported content.
+
+#### options.startComment
 Type: `String`
-Default value: `'.'`
+Default value: `'START %F% =================================================='`
 
-A string value that is used to do something else with whatever else.
+Comment to be inserted at the start of import. Only works if `options.comments` is set to true. Use `%F%` as a placeholder for filename.
+
+#### options.endComment
+Type: `String`
+Default value: `'END %F% =================================================='`
+
+Comment to be inserted at the end of import. Only works if `options.comments` is set to true. Use `%F%` as a placeholder for filename.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
 ```js
 grunt.initConfig({
   import: {
-    options: {},
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'target/main.js': 'src/main.js',
     },
   },
 })
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
 ```js
 grunt.initConfig({
   import: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      token: '$_(%F%)',
+      startComment: '%F% - start',
+      endComment: '%F% - end',
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'target/main.js': 'src/main.js',
     },
   },
 })
