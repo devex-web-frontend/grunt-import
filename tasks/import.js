@@ -38,7 +38,7 @@ module.exports = function(grunt) {
 			var token = options.token.replace(/;?$/g, '') + ';?';
 
 			/* escape special symbols */
-			token = token.replace(/(\$|\(|\))/g, '\\$1');
+			token = token.replace(/([\$\(\)\.])/g, '\\$1');
 
 			/* replace %F% with RegExp for file name */
 			token = token.replace('%F%', '[\'"]?([\\w\\/\\.-]+)[\'"]?');
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
 						endComment = options.endComment.replace('%F%', filename);
 
 				if (options.comments) {
-					str += '/* ' + startComment + ' */\r\n';
+					str +='/* ' + startComment + ' */\r\n';
 				}
 
 				str += grunt.file.read(Path.join(srcDir, filename)) + '\r\n';
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
 					str += '/* ' + endComment + ' */\r\n';
 				}
 
-				return str;
+				return grunt.util.normalizelf(str);
 			});
 
 			grunt.file.write(file.dest, src);
